@@ -6,8 +6,119 @@
     <title>BrandX</title>
     <link href="../css/brandx-style.css" rel="stylesheet" />
     <link rel="shortcut icon" href="//cdn.shopify.com/s/files/1/0556/9150/9911/files/BonTon_Primary_Icon_Flower_Red.png?v=1625744650" type="image/png">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
+<style>
+    /* -------------------------------- 
+
+Primary style
+
+-------------------------------- */
+html * {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 100%;
+  font-family: "Lora", serif;
+  font-family: "Roboto Condensed", sans-serif;
+  color: #2d313f;
+  background-color: #e7eaf0;
+}
+
+/* -------------------------------- 
+
+Main components 
+
+-------------------------------- */
+
+#cd-google-map {
+  display: table;
+  width: 100%;
+  height: 250px;
+  position: relative;
+  margin: 5em 0 0;
+}
+
+#google-container {
+  display: table-cell;
+  position: relative;
+  width: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+  #cd-google-map {
+    height: 360px;
+  }
+}
+@media only screen and (min-width: 960px) {
+  #cd-google-map {
+    height: 480px;
+  }
+}
+
+#cd-google-map .bx-address {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  padding: 1em 1em;
+  background-color: rgba(211, 104, 104, 0.9);
+  color: white;
+  font-size: 13px;
+  font-size: 0.8125rem;
+}
+
+@media only screen and (min-width: 768px) {
+  #cd-google-map .bx-address {
+    font-size: 15px;
+    font-size: 0.9375rem;
+    text-align: center;
+  }
+}
+#cd-zoom-in, #cd-zoom-out {
+  height: 32px;
+  width: 32px;
+  cursor: pointer;
+  margin-left: 10px;
+  background-color: rgba(211, 104, 104, 0.95);
+  background-repeat: no-repeat;
+  background-size: 32px 64px;
+  background-image: url("https://codyhouse.co/demo/custom-google-map/img/cd-icon-controller.svg");
+}
+
+.no-touch #cd-zoom-in:hover, .no-touch #cd-zoom-out:hover {
+  background-color: #d36868;
+}
+
+@media only screen and (min-width: 768px) {
+  #cd-zoom-in, #cd-zoom-out {
+    margin-left: 20px;
+  }
+}
+#cd-zoom-in {
+  background-position: 50% 0;
+  margin-top: 10px;
+  margin-bottom: 1px;
+}
+
+@media only screen and (min-width: 768px) {
+  #cd-zoom-in {
+    margin-top: 20px;
+  }
+}
+#cd-zoom-out {
+  background-position: 50% -32px;
+}
+</style>
 <body>
 
     
@@ -63,10 +174,280 @@
     </header>
   </div>
   
+
+    <section id="cd-google-map">
+        <!-- #google-container will contain the map  -->
+        <div id="google-container"></div>
+        <!-- #cd-zoom-in and #zoom-out will be used to create our custom buttons for zooming-in/out -->
+        <div id="cd-zoom-in"></div>
+        <div id="cd-zoom-out"></div>
+        <div class="bx-address">
+            <strong>Brandx.com, Inc.</strong>
+            <address>121 W 36th St #411, New York, NY 10018, USA</address> 
+        </div>
+    </section>
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNYc2oBtPQ2STq28TqEKKHspwfzIRdlwg"></script>
+    
   
 
     <!-- Script -->
     <script src="../js/brandx-script.js"></script>
+
+<script>
+    jQuery(document).ready(function($){
+//set your google maps parameters
+
+var latitude = 40.751965840815394,
+    longitude = -73.98824011734476,
+    map_zoom = 17;
+
+//google map custom marker icon - .png fallback for IE11
+var is_internetExplorer11= navigator.userAgent.toLowerCase().indexOf('trident') > -1;
+var marker_url = ( is_internetExplorer11 ) ? 'https://codyhouse.co/demo/custom-google-map/img/cd-icon-location.png' : 'https://codyhouse.co/demo/custom-google-map/img/cd-icon-location.svg';
+    
+//define the basic color of your map, plus a value for saturation and brightness
+var	main_color = '#bebcb0',
+    saturation_value= -20,
+    brightness_value= 5;
+
+//we define here the style of the map
+var style= [ 
+    {
+        //set saturation for the labels on the map
+        elementType: "labels",
+        stylers: [
+            {saturation: saturation_value}
+        ]
+    },  
+    {	//poi stands for point of interest - don't show these lables on the map 
+        featureType: "poi",
+        elementType: "labels",
+        stylers: [
+            {visibility: "off"}
+        ]
+    },
+    {
+        //don't show highways lables on the map
+        featureType: 'road.highway',
+        elementType: 'labels',
+        stylers: [
+            {visibility: "off"}
+        ]
+    }, 
+    { 	
+        //don't show local road lables on the map
+        featureType: "road.local", 
+        elementType: "labels.icon", 
+        stylers: [
+            {visibility: "off"} 
+        ] 
+    },
+    { 
+        //don't show arterial road lables on the map
+        featureType: "road.arterial", 
+        elementType: "labels.icon", 
+        stylers: [
+            {visibility: "off"}
+        ] 
+    },
+    {
+        //don't show road lables on the map
+        featureType: "road",
+        elementType: "geometry.stroke",
+        stylers: [
+            {visibility: "off"}
+        ]
+    }, 
+    //style different elements on the map
+    { 
+        featureType: "transit", 
+        elementType: "geometry.fill", 
+        stylers: [
+            { hue: main_color },
+            { visibility: "on" }, 
+            { lightness: brightness_value }, 
+            { saturation: saturation_value }
+        ]
+    }, 
+    {
+        featureType: "poi",
+        elementType: "geometry.fill",
+        stylers: [
+            { hue: main_color },
+            { visibility: "on" }, 
+            { lightness: brightness_value }, 
+            { saturation: saturation_value }
+        ]
+    },
+    {
+        featureType: "poi.government",
+        elementType: "geometry.fill",
+        stylers: [
+            { hue: main_color },
+            { visibility: "on" }, 
+            { lightness: brightness_value }, 
+            { saturation: saturation_value }
+        ]
+    },
+    {
+        featureType: "poi.sport_complex",
+        elementType: "geometry.fill",
+        stylers: [
+            { hue: main_color },
+            { visibility: "off" }, 
+            { lightness: brightness_value }, 
+            { saturation: saturation_value }
+        ]
+    },
+    {
+        featureType: "poi.attraction",
+        elementType: "geometry.fill",
+        stylers: [
+            { hue: main_color },
+            { visibility: "on" }, 
+            { lightness: brightness_value }, 
+            { saturation: saturation_value }
+        ]
+    },
+    {
+        featureType: "poi.business",
+        elementType: "geometry.fill",
+        stylers: [
+            { hue: main_color },
+            { visibility: "off" }, 
+            { lightness: brightness_value }, 
+            { saturation: saturation_value }
+        ]
+    },
+    {
+        featureType: "transit",
+        elementType: "geometry.fill",
+        stylers: [
+            { hue: main_color },
+            { visibility: "off" }, 
+            { lightness: brightness_value }, 
+            { saturation: saturation_value }
+        ]
+    },
+    {
+        featureType: "transit.station",
+        elementType: "geometry.fill",
+        stylers: [
+            { hue: main_color },
+            { visibility: "off" }, 
+            { lightness: brightness_value }, 
+            { saturation: saturation_value }
+        ]
+    },
+    {
+        featureType: "landscape",
+        stylers: [
+    { hue: "#f2f2f4"},
+            { visibility: "on" }
+        ]
+        
+    },
+    {
+        featureType: "road",
+        elementType: "geometry.fill",
+        stylers: [
+            { hue: main_color },
+            { visibility: "on" }, 
+            { lightness: brightness_value }, 
+            { saturation: saturation_value }
+        ]
+    },
+    {
+        featureType: "road.highway",
+        elementType: "geometry.fill",
+        stylers: [
+            { hue: main_color },
+            { visibility: "on" }, 
+            { lightness: brightness_value }, 
+            { saturation: saturation_value }
+        ]
+    }, 
+    {
+        featureType: "water",
+        elementType: "geometry",
+        stylers: [
+            { hue: "#6cb3ea" },
+            { visibility: "on" }, 
+            { lightness: -10 }, 
+            { saturation: 40 }
+        ]
+    }
+];
+    
+//set google map options
+var map_options = {
+    center: new google.maps.LatLng(latitude, longitude),
+    zoom: map_zoom,
+    panControl: false,
+    zoomControl: false,
+    mapTypeControl: false,
+    streetViewControl: false,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    scrollwheel: false,
+    styles: style,
+}
+//inizialize the map
+var map = new google.maps.Map(document.getElementById('google-container'), map_options);
+
+var contentString = '<div id="content" style="height: 90px; padding: 4px;">'+
+        '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
+        '<div id="bodyContent">'+
+        '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+        'sandstone rock formation in the southern part of the '+
+        'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
+        '</p>'+
+        '</div>'+
+        '</div>';
+
+    var infowindow = new google.maps.InfoWindow({
+        content: contentString,
+        maxWidth: 200
+    });
+
+
+//add a custom marker to the map				
+var marker = new google.maps.Marker({
+    position: new google.maps.LatLng(latitude, longitude),
+    map: map,
+    visible: true,
+    icon: marker_url,
+});
+marker.addListener('click', function() {
+        infowindow.open(map, marker);
+    });
+
+
+//add custom buttons for the zoom-in/zoom-out on the map
+function CustomZoomControl(controlDiv, map) {
+    //grap the zoom elements from the DOM and insert them in the map 
+    var controlUIzoomIn= document.getElementById('cd-zoom-in'),
+        controlUIzoomOut= document.getElementById('cd-zoom-out');
+    controlDiv.appendChild(controlUIzoomIn);
+    controlDiv.appendChild(controlUIzoomOut);
+
+    // Setup the click event listeners and zoom-in or out according to the clicked element
+    google.maps.event.addDomListener(controlUIzoomIn, 'click', function() {
+        map.setZoom(map.getZoom()+1)
+    });
+    google.maps.event.addDomListener(controlUIzoomOut, 'click', function() {
+        map.setZoom(map.getZoom()-1)
+    });
+}
+
+var zoomControlDiv = document.createElement('div');
+var zoomControl = new CustomZoomControl(zoomControlDiv, map);
+
+//insert the zoom div on the top left of the map
+map.controls[google.maps.ControlPosition.LEFT_TOP].push(zoomControlDiv);
+});
+</script>
 
 </body>
 </html>

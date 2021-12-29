@@ -1,0 +1,77 @@
+body {
+    font-family: Bebas Neue,sans-serif;
+    background-color: whitesmoke;
+    margin: 0;
+}
+figure{
+    margin: 0;
+    position: relative;
+}
+figure figcaption{
+    position: absolute;
+    bottom: 0.5em;
+    left: 0.5em;
+}
+figure figcaption a{
+    color: #ffffff;
+    font-weight: lighter;
+    letter-spacing: 0.05em;
+    font-size: 0.7em;
+    text-decoration: none;
+}
+.img-container{
+/*Must set parent container's width, other the child
+container will not goes to center*/
+    width: 100%;
+    display: flex;
+    margin:0 auto;
+    justify-content: center; 
+}
+.img-container img{
+    width: 100%;
+    max-width: 100%;
+}
+.image-containerLeft{
+    padding:5px;
+    flex: 1;
+}
+.image-containerCenter{
+    padding:5px;
+    flex: 1;
+}
+
+.image-containerRight{
+    padding:5px;
+    flex: 1;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 40px;
+    letter-spacing: 5px;
+}
+
+/**Loader**/
+.loader{
+/*"fixed" will position under the browser viewport, so the element will be fixed rather than
+scroll with the pages*/
+    position:fixed;
+    top:0;
+    bottom: 0;
+    left:0;
+    right: 0;
+}
+
+.loader img{
+    position: fixed;
+/*When using position:absolute; you're positioning the element relative to its container.
+Let's say that in your example the container is the body of the page.*/
+    top:50%;
+    left:50%;
+/*When using transform:translate() you translate the element relative to itself.This method will
+makes the element go to the center of the pages*/
+/*https://stackoverflow.com/questions/62868158/why-does-transform-translate-50-50-center-my-container?noredirect=1&lq=1*/
+    transform:translate(-50%,50%) ;
+}

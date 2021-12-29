@@ -45,7 +45,7 @@ function displayPhotos(){
         const figcaption_elem = document.createElement('figcaption');
         elementAssembling(a_tag,{
         //a_tag.setAttribute('href', photo.links.html);
-            href:photo.links.html,
+            href:photo.links.html+'?utm_source=fashion-infinite-gallery&utm_medium=referral',
             target:'_blank',
         });
 

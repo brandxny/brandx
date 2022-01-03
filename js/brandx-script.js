@@ -1,6 +1,7 @@
+// BywnXD-Scg78p0TznWvf_BqaEzajemRtrCkAksy92FA
 //1.Unsplash API and variable initial.
 const count=90;
-const apiKey='BywnXD-Scg78p0TznWvf_BqaEzajemRtrCkAksy92FA';
+const apiKey='9G7-wafyUsNQ4y4pu41iiJ-NwDoZDAmBNel1YYxChnY';
 const apiURL=`https://api.unsplash.com/photos/random?query=fashion&client_id=${apiKey}&count=${count}`;
 const imageContainerLeft = document.getElementById('image-containerLeft');
 // const imageContainerCenter = document.getElementById('image-containerCenter');

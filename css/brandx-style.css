@@ -71,7 +71,6 @@ h1 {
     background-color: #ffffff;
     z-index: 4;
     overflow: hidden;
-    position: fixed;
     top: 0;
     left: 0;
   }
@@ -259,4 +258,3 @@ h1 {
     -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
   }
-  

@@ -1,7 +1,16 @@
-// BywnXD-Scg78p0TznWvf_BqaEzajemRtrCkAksy92FA
+var obj = {
+    '8e31e45f4a0e8959d456ba2914723451b8262337f75bcea2e04ae535491df16d' : 'key1',
+    '9G7-wafyUsNQ4y4pu41iiJ-NwDoZDAmBNel1YYxChnY' : 'key2',
+    'BywnXD-Scg78p0TznWvf_BqaEzajemRtrCkAksy92FA' : 'key3',
+    '9ad80b14098bcead9c7de952435e937cc3723ae61084ba8e729adb642daf0251' : 'key3'
+}
+  
+const keys = Object.keys(obj)
+const apiKey = keys[Math.floor(Math.random() * keys.length)]
+// console.log(apiKey);
+
 //1.Unsplash API and variable initial.
 const count=90;
-const apiKey='9G7-wafyUsNQ4y4pu41iiJ-NwDoZDAmBNel1YYxChnY';
 const apiURL=`https://api.unsplash.com/photos/random?query=fashion&client_id=${apiKey}&count=${count}`;
 const imageContainerLeft = document.getElementById('image-containerLeft');
 // const imageContainerCenter = document.getElementById('image-containerCenter');

@@ -2,7 +2,7 @@ var obj = {
     '8e31e45f4a0e8959d456ba2914723451b8262337f75bcea2e04ae535491df16d' : 'key1',
     '9G7-wafyUsNQ4y4pu41iiJ-NwDoZDAmBNel1YYxChnY' : 'key2',
     'BywnXD-Scg78p0TznWvf_BqaEzajemRtrCkAksy92FA' : 'key3',
-    '9ad80b14098bcead9c7de952435e937cc3723ae61084ba8e729adb642daf0251' : 'key3'
+    '9ad80b14098bcead9c7de952435e937cc3723ae61084ba8e729adb642daf0251' : 'key4'
 }
   
 const keys = Object.keys(obj)
@@ -13,7 +13,7 @@ const apiKey = keys[Math.floor(Math.random() * keys.length)]
 const count=90;
 const apiURL=`https://api.unsplash.com/photos/random?query=fashion&client_id=${apiKey}&count=${count}`;
 const imageContainerLeft = document.getElementById('image-containerLeft');
-// const imageContainerCenter = document.getElementById('image-containerCenter');
+const imageContainerCenter = document.getElementById('image-containerCenter');
 const imageContainerRight = document.getElementById('image-containerRight');
 const imageContainerMobile = document.getElementById('image-container-mobile');
 const loader= document.getElementById('loader');
@@ -22,19 +22,19 @@ let screenThreshold=1010;
 console.log(screenWidth);
 let photoArray=[]; //All Photo Array
 let photoArrayL=[];//Photo Array for left container
-// let photoArrayC=[];//Photo Array for left container
+let photoArrayC=[];//Photo Array for left container
 let photoArrayR=[];//Photo Array for right container
 let photoArrayM=[];//Photo Array for mobile device
 
 //2.Enable/disable DIV for different device.
 if(screenWidth>screenThreshold){
     document.getElementById("image-containerLeft").style.display="";
-    // document.getElementById("image-containerCenter").style.display="";
+    document.getElementById("image-containerCenter").style.display="";
     document.getElementById("image-containerRight").style.display="";
     document.getElementById("image-container-mobile").style.display="none";
 }else{
     document.getElementById("image-containerLeft").style.display="none";
-    // document.getElementById("image-containerCenter").style.display="none";
+    document.getElementById("image-containerCenter").style.display="none";
     document.getElementById("image-containerRight").style.display="none";
     document.getElementById("image-container-mobile").style.display="";
 }
@@ -77,28 +77,28 @@ function displayPhotos(){
         imageContainerLeft.appendChild(figure_elem);
     });
 
-    // photoArrayC.forEach((photo)=>{
-    //     const a_tag = document.createElement('a');
-    //     const figure_elem = document.createElement('figure');
-    //     const figcaption_elem = document.createElement('figcaption');
-    //     elementAssembling(a_tag,{
-    //         href:photo.links.html,
-    //         target:'_blank',
-    //     });
+    photoArrayC.forEach((photo)=>{
+        const a_tag = document.createElement('a');
+        const figure_elem = document.createElement('figure');
+        const figcaption_elem = document.createElement('figcaption');
+        elementAssembling(a_tag,{
+            href:photo.links.html,
+            target:'_blank',
+        });
 
-    //     const img_tag = document.createElement('img');
-    //     const img_author = document.createTextNode(photo.user.name);
-    //     elementAssembling(img_tag,{
-    //         src:photo.urls.regular,
-    //         alt:photo.alt_description,
-    //         title:photo.alt_description
-    //     });
-    //     figure_elem.appendChild(img_tag);
-    //     figure_elem.appendChild(figcaption_elem);
-    //     figcaption_elem.appendChild(a_tag);
-    //     a_tag.appendChild(img_author);
-    //     imageContainerCenter.appendChild(figure_elem);
-    // });
+        const img_tag = document.createElement('img');
+        const img_author = document.createTextNode(photo.user.name);
+        elementAssembling(img_tag,{
+            src:photo.urls.regular,
+            alt:photo.alt_description,
+            title:photo.alt_description
+        });
+        figure_elem.appendChild(img_tag);
+        figure_elem.appendChild(figcaption_elem);
+        figcaption_elem.appendChild(a_tag);
+        a_tag.appendChild(img_author);
+        imageContainerCenter.appendChild(figure_elem);
+    });
 
     photoArrayR.forEach((photo)=>{
         const a_tag = document.createElement('a');
@@ -181,9 +181,9 @@ async function getPhotos(){
         // for(let counter=halfLength;counter<photoArray.length;counter++){
         //     photoArrayR.push(photoArray[counter]);
         // }
-        // for(let counter=quaterLength;counter<halfLength;counter++){
-        //     photoArrayC.push(photoArray[counter]);
-        // }
+        for(let counter=quaterLength;counter<halfLength;counter++){
+            photoArrayC.push(photoArray[counter]);
+        }
         displayPhotos();
     }catch(error){
         console.log('Error happen');

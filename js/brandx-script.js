@@ -181,7 +181,7 @@ async function getPhotos(){
         // for(let counter=halfLength;counter<photoArray.length;counter++){
         //     photoArrayR.push(photoArray[counter]);
         // }
-        for(let counter=quaterLength;counter<halfLength;counter++){
+        for(let counter=3;counter<quaterLength+3;counter++){
             photoArrayC.push(photoArray[counter]);
         }
         displayPhotos();
@@ -199,7 +199,7 @@ window.addEventListener('scroll',()=>{
 //So "window.innerHeight+window.scrollY" equal the current mileage on the page.
 //"document.body.offsetHeight-1000" means there is 1000px to the bottom of the page,
 //then it's time to load new page.
-    if(window.innerHeight+window.scrollY >= document.body.offsetHeight-7300){
+    if(window.innerHeight+window.scrollY >= document.body.offsetHeight-8300){
         deviceRouter();
         console.log('Loading....');
     }
